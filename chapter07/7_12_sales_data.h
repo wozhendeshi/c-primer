@@ -1,9 +1,17 @@
-#ifndef CP5_ex7_02_h
-#define CP5_ex7_02_h
+#ifndef CP5_ex7_12_h
+#define CP5_ex7_12_h
+
 #include <iostream>
 #include <string>
 using namespace std;
+struct Sales_data;
+istream& read(istream&, Sales_data&);
 struct Sales_data {
+	Sales_data() = default;
+	Sales_data(const string& s):bookNo(s) {}
+	Sales_data(const string& s,unsigned n,double p):bookNo(s),units_sold(n),revenue(n*p){}
+	Sales_data(istream& is) { read(is, *this); }
+
 	string isbn() const { return bookNo; };
 	Sales_data& combine(const Sales_data&);
 
@@ -19,15 +27,17 @@ Sales_data& Sales_data::combine(const Sales_data& rhs)
 	return *this;
 }
 
-istream& read(istream& is, Sales_data& item) {
+istream& read(istream& is, Sales_data& item)
+{
 	double price = 0;
 	is >> item.bookNo >> item.units_sold >> price;
 	item.revenue = price * item.units_sold;
 	return is;
 }
 
-ostream& print(ostream& os, const Sales_data& item) {
-	os << item.isbn ()<< " " << item.units_sold << " " << item.revenue;
+ostream& print(ostream& os, Sales_data item)
+{
+	os << item.isbn() << " " << item.units_sold << " " << item.revenue;
 	return os;
 }
 
@@ -39,3 +49,23 @@ Sales_data add(const Sales_data& lhs, const Sales_data& rhs)
 }
 
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
